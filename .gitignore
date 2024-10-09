@@ -1,0 +1,4 @@
+/Game_RougeBuilder/*
+!/Game_RougeBuilder/Assets
+!/Game_RougeBuilder/ProjectSettings
+!/Game_RougeBuilder/Packages
