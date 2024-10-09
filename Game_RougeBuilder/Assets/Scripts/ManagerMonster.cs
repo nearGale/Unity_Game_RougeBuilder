@@ -11,7 +11,8 @@ public class ManagerMonster : Singleton<ManagerMonster>
 
     public void Start()
     {
-        Reset();
+        dictMonsters.Clear();
+        newCreateId = 0;
     }
 
     public void Update() 
@@ -25,8 +26,11 @@ public class ManagerMonster : Singleton<ManagerMonster>
 
     public void Reset()
     {
-        dictMonsters.Clear();
-        newCreateId = 0;
+        foreach (var kvPair in dictMonsters)
+        {
+            var monsterComp = kvPair.Value;
+            monsterComp.Reset();
+        }
     }
 
     public MonsterComponent GetMonsterById(int id)
@@ -39,22 +43,26 @@ public class ManagerMonster : Singleton<ManagerMonster>
         return null;
     }
 
-    public (int, MonsterComponent) CreateMonster()
+    public (int, MonsterComponent) CreateMonster(
+        int hpMax, int attack, float attackInterval,
+        int attackCriticalRate, int missRate)
     {
         newCreateId++;
 
-        var monsterComp = new MonsterComponent(
-            hpMax: 500, 
-            attack: 1, 
-            attackInterval: 0.2f,
-            attackCriticalRate: 10,
-            missRate: 10);
+        var monsterComp = new MonsterComponent();
 
         var ui = GameObject.Instantiate(GameFlowCtrl.Instance.prefabMonsterUI, GameFlowCtrl.Instance.rootMonstersUI);
         var uiMonsterCtrl = ui.GetComponent<UIMonsterCtrl>();
 
         monsterComp.ui = uiMonsterCtrl;
-        monsterComp.Reset(newCreateId);
+        monsterComp.SetId(newCreateId);
+        monsterComp.SetFightProperty(
+            hpMax,
+            attack,
+            attackInterval,
+            attackCriticalRate,
+            missRate);
+        monsterComp.Reset();
 
         dictMonsters.Add(newCreateId, monsterComp);
 

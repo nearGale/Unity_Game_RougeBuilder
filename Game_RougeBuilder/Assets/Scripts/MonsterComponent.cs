@@ -48,7 +48,7 @@ public class MonsterComponent
 
     #region [Life Circle Method]
 
-    public MonsterComponent(int hpMax, int attack, float attackInterval,
+    public void SetFightProperty(int hpMax, int attack, float attackInterval,
         int attackCriticalRate, int missRate)
     {
         this.hpMax = hpMax;
@@ -56,6 +56,11 @@ public class MonsterComponent
         this.attackInterval = attackInterval;
         this.attackCriticalRate = attackCriticalRate;
         this.missRate = missRate;
+
+        ui.RefreshAttack(attack);
+        ui.RefreshAttackInterval(attackInterval);
+        ui.RefreshAttackCritRate(attackCriticalRate);
+        ui.RefreshAttackedMissingRate(missRate);
     }
 
     public void Update()
@@ -70,16 +75,21 @@ public class MonsterComponent
         }
     }
 
-    public void Reset(int id)
+    public void Reset()
     {
-        this.id = id;
         hpCur = hpMax;
 
-        ui.RefreshName($"Monster_{id}");
         ui.RefreshHp(hpCur, hpMax);
     }
 
     #endregion [Life Circle Method]
+
+    public void SetId(int id)
+    {
+        this.id = id;
+
+        ui.RefreshName($"Monster_{id}");
+    }
 
     private void DoAttack()
     {

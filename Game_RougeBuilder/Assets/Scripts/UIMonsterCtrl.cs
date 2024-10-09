@@ -9,6 +9,10 @@ public class UIMonsterCtrl : MonoBehaviour
     public Slider testSlider;
     public Text textHp;
     public Text textName;
+    public Text textAttack;
+    public Text textAttackInterval;
+    public Text textAttackCritRate;
+    public Text textAttackedMissingRate;
     public Transform rootDmgTaken;
 
     /// <summary>
@@ -53,6 +57,26 @@ public class UIMonsterCtrl : MonoBehaviour
         testSlider.minValue = 0;
         testSlider.maxValue = maxHp;
         testSlider.value = curHp;
+    }
+
+    public void RefreshAttack(int val)
+    {
+        textAttack.text = $"¹¥»÷Á¦: {val}";
+    }
+
+    public void RefreshAttackInterval(float val)
+    {
+        textAttackInterval.text = val.ToString("¹¥»÷¼ä¸ô: #0.00s");
+    }
+
+    public void RefreshAttackCritRate(int val)
+    {
+        textAttackCritRate.text = $"±©»÷ÂÊ: {val}%";
+    }
+
+    public void RefreshAttackedMissingRate(int val)
+    {
+        textAttackedMissingRate.text = $"ÉÁ±ÜÂÊ: {val}%";
     }
 
     /// <summary>
