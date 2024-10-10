@@ -3,64 +3,14 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public enum EFightProperty
-{
-    // ===== 0~100 ÊÇ»ù´¡Öµ ===== 
-
-    /// <summary>
-    /// µ±Ç°ÑªÁ¿
-    /// </summary>
-    hpCur = 1,
-
-    /// <summary>
-    /// ×î´óÑªÁ¿
-    /// </summary>
-    hpMax_Basic = 2,
-
-    /// <summary>
-    /// ¹¥»÷Á¦
-    /// </summary>
-    attack_Basic = 3,
-
-    /// <summary>
-    /// ¹¥»÷¼ä¸ô (s)
-    /// </summary>
-    attackInterval_Basic = 4,
-
-    /// <summary>
-    /// ¹¥»÷±©»÷ÂÊ (0~100), ¼ÆËãÊ± randomVal <= rate Îª±©»÷
-    /// </summary>
-    attackCritRate_Basic = 5,
-
-    /// <summary>
-    /// ÉÁ±ÜÂÊ (0~100), ¼ÆËãÊ± randomVal <= rate ÎªÉÁ±Ü³É¹¦
-    /// </summary>
-    missRate_Basic = 6,
-
-    // ===== ³¬¹ı100ÊÇĞŞ¸ÄÖµ ===== 
-
-    hpMax_Modify = 101,
-    attack_Modify = 102,
-    attackInterval_Modify = 103,
-    attackCritRate_Modify = 104,
-    missRate_Modify = 105,
-
-    // ===== ³¬¹ı200ÊÇ¼ÆËãÖµ ===== 
-
-    hpMax = 201,
-    attack = 202,
-    attackInterval = 203,
-    attackCritRate = 204,
-    missRate = 205,
-
-}
-
 public class Monster
 {
     #region [Property]
     public Dictionary<EFightProperty, float> fightProperties = new();
 
     public int id;
+
+    public int dataId;
 
     public bool alive => GetFightProperty(EFightProperty.hpCur) > 0;
 
@@ -82,19 +32,20 @@ public class Monster
     {
         foreach(var kvPair in fightProperties)
         {
-            // Çå³ıÖĞÍ¾ĞŞ¸ÄÖµ
+            // æ¸…é™¤ä¸­é€”ä¿®æ”¹å€¼
             if((int)kvPair.Key > 100 && (int)kvPair.Key <= 200)
             {
                 fightProperties[kvPair.Key] = 0;
             }
         }
 
-        SetFightProperty(EFightProperty.hpCur, GetFightProperty(EFightProperty.hpMax));
-
         talents.Clear();
         ui.RefreshTalents(talents);
 
         componentBuff.Clear();
+
+        id = 0;
+        dataId = 0;
     }
 
     public void BuffLogicUpdate()
@@ -145,6 +96,21 @@ public class Monster
         fightProperties[prop] = val;
 
         OnPropertyChanged(prop);
+    }
+
+    public void SetBasicProperty(DataMonster dataMonster)
+    {
+        dataId = dataMonster.dataId;
+
+        ui.RefreshName($"{dataMonster.name}");
+
+        SetFightProperty(EFightProperty.hpMax_Basic, dataMonster.hp);
+        SetFightProperty(EFightProperty.hpCur, dataMonster.hp);
+        SetFightProperty(EFightProperty.attack_Basic, dataMonster.attack);
+        SetFightProperty(EFightProperty.attackInterval_Basic, dataMonster.attackInterval);
+        SetFightProperty(EFightProperty.attackCritRate_Basic, dataMonster.attackCritRate);
+        SetFightProperty(EFightProperty.missRate_Basic, dataMonster.missRate);
+
     }
 
     private float ClampFightProperty(EFightProperty prop, float val)
@@ -207,23 +173,11 @@ public class Monster
         }
     }
 
-    public void SetFightProperty(int hpMax, int attack, float attackInterval,
-        int attackCritRate, int missRate)
-    {
-        SetFightProperty(EFightProperty.attack_Basic, attack);
-        SetFightProperty(EFightProperty.hpMax_Basic, hpMax);
-        SetFightProperty(EFightProperty.attackInterval_Basic, attackInterval);
-        SetFightProperty(EFightProperty.attackCritRate_Basic, attackCritRate);
-        SetFightProperty(EFightProperty.missRate_Basic, missRate);
-    }
-
     #endregion [Fight Property Method]
 
     public void SetId(int id)
     {
         this.id = id;
-
-        ui.RefreshName($"Monster_{id}");
     }
 
     public void TryAttack()
@@ -246,7 +200,7 @@ public class Monster
         if (targetMonster == null) return;
         if (!targetMonster.alive) return;
 
-        // ¼ÆËãÉÁ±Ü
+        // è®¡ç®—é—ªé¿
         bool isMissing = false;
         int randomVal = Random.Range(0, 100);
         if (randomVal < targetMonster.GetFightProperty(EFightProperty.missRate))
@@ -256,7 +210,7 @@ public class Monster
             return;
         }
 
-        // ¼ÆËã±©»÷
+        // è®¡ç®—æš´å‡»
         bool isCritical = false;
         randomVal = Random.Range(0, 100);
         if(randomVal <= GetFightProperty(EFightProperty.attackCritRate))
@@ -275,10 +229,10 @@ public class Monster
     }
 
     /// <summary>
-    /// µ±×Ô¼ºÊÜµ½¹¥»÷Ê±
+    /// å½“è‡ªå·±å—åˆ°æ”»å‡»æ—¶
     /// </summary>
-    /// <param name="dmgVal">ÉËº¦ÊıÖµ</param>
-    /// <param name="isCritical">ÊÇ·ñÊÇ±©»÷</param>
+    /// <param name="dmgVal">ä¼¤å®³æ•°å€¼</param>
+    /// <param name="isCritical">æ˜¯å¦æ˜¯æš´å‡»</param>
     public void OnAttacked(int dmgVal, bool isCritical)
     {
         var curHp = Mathf.Max(0, GetFightProperty(EFightProperty.hpCur) - dmgVal);
@@ -293,7 +247,7 @@ public class Monster
     }
 
     /// <summary>
-    /// µ±×Ô¼ºÉÁ±ÜÁËµĞ·½¹¥»÷Ê±
+    /// å½“è‡ªå·±é—ªé¿äº†æ•Œæ–¹æ”»å‡»æ—¶
     /// </summary>
     public void OnAttackedMissing()
     {
@@ -305,26 +259,26 @@ public class Monster
         talents.Add(id);
         ui.RefreshTalents(talents);
 
-        // Ğ§¹ûÉúĞ§
-        var randomVal = Random.Range(102, 106);
-        float randomVal2 = Random.Range(0, 10);
+        // æ•ˆæœç”Ÿæ•ˆ
+        //var randomVal = Random.Range(102, 106);
+        //float randomVal2 = Random.Range(0, 10);
 
-        if (randomVal == 103)
-        {
-            randomVal2 = Random.Range(-0.2f, 0.2f);
-        }
+        //if (randomVal == 103)
+        //{
+        //    randomVal2 = Random.Range(-0.2f, 0.2f);
+        //}
 
-        SetFightProperty(
-            (EFightProperty)randomVal,
-            GetFightProperty((EFightProperty)randomVal) + randomVal2
-            );
+        //SetFightProperty(
+        //    (EFightProperty)randomVal,
+        //    GetFightProperty((EFightProperty)randomVal) + randomVal2
+        //    );
 
-        AddBuff(0, 3);
+        AddBuff(id % 3 + 1);
     }
 
-    public void AddBuff(int dataId, float restTime)
+    public void AddBuff(int dataId)
     {
-        componentBuff.AddBuff(dataId, id, restTime);
+        componentBuff.AddBuff(dataId, id);
     }
 
     private void OnDead() { }

@@ -8,16 +8,16 @@ public class Buff
 
     public int ownerMonsterId;
 
-    public float restTime; // -1 Ϊ���ã�>0 Ϊ��ʱ
+    public float restTime; // -1 为永久，>0 为限时
+
+    public List<float> listParams; // 配表的参数
 
     /// <summary>
-    /// Buff Update�߼�
+    /// Buff Update逻辑
     /// </summary>
-    /// <returns>���buff�Ƿ��������</returns>
+    /// <returns>这个buff是否继续存在</returns>
     public bool LogicUpdate()
     {
-        var skillAlive = true;
-
         if (restTime == -1)
         {
             return true;
@@ -32,25 +32,12 @@ public class Buff
         return false;
     }
 
-    public void OnAdd()
-    {
-        var monster = ManagerMonster.Instance.GetMonsterById(ownerMonsterId);
-        if (monster != null)
-        {
-            monster.SetFightProperty(
-                EFightProperty.attack_Modify,
-                monster.GetFightProperty(EFightProperty.attack_Modify) + 10);
-        }
-    }
+    public virtual void OnAdd() { }
 
-    public void OnRemove()
-    {
-        var monster = ManagerMonster.Instance.GetMonsterById(ownerMonsterId);
-        if (monster != null)
-        {
-            monster.SetFightProperty(
-                EFightProperty.attack_Modify,
-                monster.GetFightProperty(EFightProperty.attack_Modify) - 10);
-        }
-    }
+    public virtual void OnRemove() { }
+
+    /// <summary>
+    /// 将表里的参数数据，转成此类型的实际用法
+    /// </summary>
+    public virtual void TranslateParamList() { }
 }

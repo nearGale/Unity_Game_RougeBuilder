@@ -23,7 +23,7 @@ public class ManagerMonster : Singleton<ManagerMonster>
     {
         if (ManagerGamePeriod.Instance.GetCurPeriodType() != EGamePeriodType.Fight) return;
 
-        // Ïà»¥¹¥»÷
+        // ç›¸äº’æ”»å‡»
         foreach (var kvPair in dictMonsters)
         {
             var monsterComp = kvPair.Value;
@@ -57,11 +57,14 @@ public class ManagerMonster : Singleton<ManagerMonster>
         return null;
     }
 
-    public (int, Monster) CreateMonster(
-        int hpMax, int attack, float attackInterval,
-        int attackCriticalRate, int missRate)
+    public (int, Monster) CreateMonster(int dataId)
     {
         newCreateId++;
+
+        var configMonster = ManagerConfig.Instance.Get<ConfigMonster>();
+        var dataMonster = configMonster.GetDataById<DataMonster>(dataId);
+
+        if (dataMonster == null) return (0, null);
 
         var monsterComp = new Monster();
 
@@ -69,14 +72,11 @@ public class ManagerMonster : Singleton<ManagerMonster>
         var uiMonsterCtrl = ui.GetComponent<UIMonsterCtrl>();
 
         monsterComp.ui = uiMonsterCtrl;
-        monsterComp.SetId(newCreateId);
-        monsterComp.SetFightProperty(
-            hpMax,
-            attack,
-            attackInterval,
-            attackCriticalRate,
-            missRate);
         monsterComp.Reset();
+
+        monsterComp.SetId(newCreateId);
+        monsterComp.SetBasicProperty(dataMonster);
+
 
         dictMonsters.Add(newCreateId, monsterComp);
 

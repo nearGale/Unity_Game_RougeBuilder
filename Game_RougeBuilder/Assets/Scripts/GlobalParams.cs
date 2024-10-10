@@ -5,7 +5,12 @@ using UnityEngine;
 public static class GlobalParams
 {
     /// <summary>
-    /// monster ¹¥»÷±©»÷ÉËº¦±¶ÂÊ
+    /// monster æ”»å‡»æš´å‡»ä¼¤å®³å€ç‡
     /// </summary>
     public const float MonsterAttackCritDmgMultiplier = 2f;
+
+    /// <summary>
+    /// asset é…ç½®çš„è·¯å¾„
+    /// </summary>
+    public const string AssetPath = "/Config";
 }

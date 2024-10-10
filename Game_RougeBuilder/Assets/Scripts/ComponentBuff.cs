@@ -38,14 +38,40 @@ public class ComponentBuff
         _tmpList.Clear();
     }
 
-    public void AddBuff(int dataId, int ownerId, float restTime)
+    public void AddBuff(int dataId, int ownerId)
     {
-        var buff = new Buff();
+        var configBuff = ManagerConfig.Instance.Get<ConfigBuff>();
+        var dataBuff = configBuff.GetDataById<DataBuff>(dataId);
+
+        if (dataBuff == null) return;
+
+        Buff buff = null;
+
+        switch (dataBuff.eBuffType)
+        {
+            case EBuffType.FightProperty:
+                buff = new BuffPropertyModify();
+                break;
+        }
+
         buff.dataId = dataId;
         buff.ownerMonsterId = ownerId;
-        buff.restTime = restTime;
+        buff.restTime = dataBuff.restTime;
+        buff.listParams = dataBuff.paramList;
+
+        buff.TranslateParamList();
 
         buffs.Add(buff);
         buff.OnAdd();
     }
+}
+
+
+// TODO: readCSV
+public class CSVBuff
+{
+    public int dataId;
+    public EBuffType eType;
+    public List<float> paramList = new();
+    public float restTime;
 }
