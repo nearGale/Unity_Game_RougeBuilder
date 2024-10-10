@@ -22,7 +22,7 @@ public class Monster
 
     public List<int> talents = new();
 
-    public ComponentBuff componentBuff = new();
+    public ComponentBuff compBuff = new();
 
     #endregion [Property]
 
@@ -42,7 +42,7 @@ public class Monster
         talents.Clear();
         ui.RefreshTalents(talents);
 
-        componentBuff.Clear();
+        compBuff.Clear();
 
         id = 0;
         dataId = 0;
@@ -50,7 +50,10 @@ public class Monster
 
     public void BuffLogicUpdate()
     {
-        componentBuff.LogicUpdate();
+        compBuff.LogicUpdate();
+
+        var stun = compBuff.HasBuffByType(EBuffType.Stun, out var _);
+        ui.RefreshStun(stun);
     }
 
     #endregion [Life Circle Method]
@@ -102,7 +105,7 @@ public class Monster
     {
         dataId = dataMonster.dataId;
 
-        ui.RefreshName($"{dataMonster.name}");
+        ui.RefreshName(dataMonster.name);
 
         SetFightProperty(EFightProperty.hpMax_Basic, dataMonster.hp);
         SetFightProperty(EFightProperty.hpCur, dataMonster.hp);
@@ -183,6 +186,8 @@ public class Monster
     public void TryAttack()
     {
         if (!alive) return;
+
+        if (compBuff.HasBuffByType(EBuffType.Stun, out _)) return;
 
         if (_lastAttackTime == 0 || Time.time > _lastAttackTime + GetFightProperty(EFightProperty.attackInterval))
         {
@@ -278,7 +283,7 @@ public class Monster
 
     public void AddBuff(int dataId)
     {
-        componentBuff.AddBuff(dataId, id);
+        compBuff.AddBuff(dataId, id);
     }
 
     private void OnDead() { }

@@ -18,9 +18,8 @@ public class UITalentCtrl : MonoBehaviour
         });
     }
 
-    public void SetDesc(int id)
+    public void SetDesc(string desc)
     {
-        this.id = id;
-        textDesc.text = id.ToString();
+        textDesc.text = desc;
     }
 }

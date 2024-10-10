@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Buff
 {
+    public EBuffType eType;
+
     public int dataId;
 
     public int ownerMonsterId;

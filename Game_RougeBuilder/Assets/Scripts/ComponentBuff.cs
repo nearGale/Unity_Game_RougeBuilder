@@ -38,24 +38,25 @@ public class ComponentBuff
         _tmpList.Clear();
     }
 
+    public bool HasBuffByType(EBuffType eType, out Buff buff)
+    {
+        buff = buffs.Find(x => x.eType == eType);
+        return buff != null;
+    }
+
     public void AddBuff(int dataId, int ownerId)
     {
         var configBuff = ManagerConfig.Instance.Get<ConfigBuff>();
-        var dataBuff = configBuff.GetDataById<DataBuff>(dataId);
 
+        var dataBuff = configBuff.GetDataById<DataBuff>(dataId);
         if (dataBuff == null) return;
 
-        Buff buff = null;
-
-        switch (dataBuff.eBuffType)
-        {
-            case EBuffType.FightProperty:
-                buff = new BuffPropertyModify();
-                break;
-        }
+        Buff buff = CreateBuffByType(dataBuff.eBuffType);
+        if (buff == null) return;
 
         buff.dataId = dataId;
         buff.ownerMonsterId = ownerId;
+        buff.eType = dataBuff.eBuffType;
         buff.restTime = dataBuff.restTime;
         buff.listParams = dataBuff.paramList;
 
@@ -64,14 +65,23 @@ public class ComponentBuff
         buffs.Add(buff);
         buff.OnAdd();
     }
-}
 
+    private Buff CreateBuffByType(EBuffType eBuffType)
+    {
+        Buff buff = null;
 
-// TODO: readCSV
-public class CSVBuff
-{
-    public int dataId;
-    public EBuffType eType;
-    public List<float> paramList = new();
-    public float restTime;
+        switch (eBuffType)
+        {
+            case EBuffType.FightProperty:
+                buff = new BuffPropertyModify();
+                break;
+            case EBuffType.Stun:
+                buff = new BuffStun();
+                break;
+            default:
+                break;
+        }
+
+        return buff;
+    }
 }

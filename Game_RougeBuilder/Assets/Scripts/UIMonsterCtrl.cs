@@ -15,27 +15,28 @@ public class UIMonsterCtrl : MonoBehaviour
     public Text textAttackCritRate;
     public Text textAttackedMissingRate;
     public Text textTalents;
+    public Text textStun;
     public Transform rootDmgTaken;
 
     /// <summary>
-    /// ÊÜµ½ÉËº¦prefab
+    /// å—åˆ°ä¼¤å®³prefab
     /// </summary>
     public GameObject damageTakenPrefab;
 
     public Transform rootAttackedMissing;
 
     /// <summary>
-    /// ÉÁ±Ü¹¥»÷prefab
+    /// é—ªé¿æ”»å‡»prefab
     /// </summary>
     public GameObject attackedMissingPrefab;
 
     /// <summary>
-    /// ÊÜ»÷µÄÊ±¼ä£¬¹ı[damageTakenShowTime]ÃëºóÖÃ¿Õ
+    /// å—å‡»çš„æ—¶é—´ï¼Œè¿‡[damageTakenShowTime]ç§’åç½®ç©º
     /// </summary>
     private float damageTakenTime;
 
     /// <summary>
-    /// ÊÜ»÷ÏÔÊ¾Ê±³¤ (s)
+    /// å—å‡»æ˜¾ç¤ºæ—¶é•¿ (s)
     /// </summary>
     private float damageTakenShowTime = 1f;
 
@@ -63,31 +64,31 @@ public class UIMonsterCtrl : MonoBehaviour
 
     public void RefreshAttack(int val)
     {
-        textAttack.text = $"¹¥»÷Á¦: {val}";
+        textAttack.text = $"æ”»å‡»åŠ›: {val}";
     }
 
     public void RefreshAttackInterval(float val)
     {
-        textAttackInterval.text = val.ToString("¹¥»÷¼ä¸ô: #0.00s");
+        textAttackInterval.text = val.ToString("æ”»å‡»é—´éš”: #0.00s");
     }
 
     public void RefreshAttackCritRate(int val)
     {
-        textAttackCritRate.text = $"±©»÷ÂÊ: {val}%";
+        textAttackCritRate.text = $"æš´å‡»ç‡: {val}%";
     }
 
     public void RefreshAttackedMissingRate(int val)
     {
-        textAttackedMissingRate.text = $"ÉÁ±ÜÂÊ: {val}%";
+        textAttackedMissingRate.text = $"é—ªé¿ç‡: {val}%";
     }
 
     public void RefreshTalents(List<int> talents)
     {
-        textTalents.text = $"Ìì¸³: {String.Join(',', talents)}";
+        textTalents.text = $"å¤©èµ‹: {String.Join(',', talents)}";
     }
 
     /// <summary>
-    /// ÏÔÊ¾×Ô¼ºÊÜµ½ÉËº¦
+    /// æ˜¾ç¤ºè‡ªå·±å—åˆ°ä¼¤å®³
     /// </summary>
     public void ShowDmgTaken(int dmgTaken, bool isCritical)
     {
@@ -98,7 +99,7 @@ public class UIMonsterCtrl : MonoBehaviour
     }
 
     /// <summary>
-    /// ÏÔÊ¾×Ô¼ºÉÁ±ÜÁËµĞ·½¹¥»÷
+    /// æ˜¾ç¤ºè‡ªå·±é—ªé¿äº†æ•Œæ–¹æ”»å‡»
     /// </summary>
     public void ShowAttackedMissing()
     {
@@ -106,5 +107,10 @@ public class UIMonsterCtrl : MonoBehaviour
 
         var missingCtrl = missingGo.GetComponent<UIMonsterAttackedMissingCtrl>();
         missingCtrl.SetStartPosX();
+    }
+
+    public void RefreshStun(bool val)
+    {
+        textStun.enabled = val;
     }
 }

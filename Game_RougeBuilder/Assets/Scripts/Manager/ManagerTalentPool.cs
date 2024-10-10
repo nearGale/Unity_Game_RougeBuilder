@@ -8,12 +8,31 @@ using UnityEngine;
 public class Talent
 {
     public int id;
+    public int buffDataId;
+
     public UITalentCtrl ui;
 
     public void SetId(int id)
     {
         this.id = id;
-        ui.SetDesc(id);
+    }
+
+    public void SetBuffDataId(int buffDataId)
+    {
+        this.buffDataId = buffDataId;
+
+        var configBuff = ManagerConfig.Instance.Get<ConfigBuff>();
+        var dataBuff = configBuff.GetDataById<DataBuff>(buffDataId);
+
+        var desc = $"{dataBuff.eBuffType}\n";
+        foreach(var param in dataBuff.paramList)
+        {
+            desc += $"{param},";
+        }
+        desc += $"\n持续{dataBuff.restTime}s";
+
+        ui.id = id;
+        ui.SetDesc(desc);
     }
 }
 
@@ -51,6 +70,9 @@ public class ManagerTalentPool : Singleton<ManagerTalentPool>
 
         talent.ui = ui.GetComponent<UITalentCtrl>();
         talent.SetId(id);
+
+        var buffDataId = Random.Range(1, 4);
+        talent.SetBuffDataId(buffDataId);
 
         talentPool.Add(id, talent);
     }

@@ -78,4 +78,5 @@ public enum EFightProperty
 public enum EBuffType
 {
     FightProperty,
+    Stun,
 }
