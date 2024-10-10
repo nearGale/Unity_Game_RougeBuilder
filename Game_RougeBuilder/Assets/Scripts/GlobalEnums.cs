@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public enum EGamePeriodType
 {
+    None,
     Fight, // Ïà»¥¹¥»÷
     SelectTalent, // Ñ¡ÔñÌì¸³
 }

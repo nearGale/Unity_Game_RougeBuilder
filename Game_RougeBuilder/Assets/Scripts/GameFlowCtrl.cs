@@ -51,4 +51,9 @@ public class GameFlowCtrl : MonoSingleton<GameFlowCtrl>
         ManagerMonster.Instance.Update();
         ManagerTalentPool.Instance.Update();
     }
+
+    private void FixedUpdate()
+    {
+        ManagerMonster.Instance.FixedUpdate();
+    }
 }

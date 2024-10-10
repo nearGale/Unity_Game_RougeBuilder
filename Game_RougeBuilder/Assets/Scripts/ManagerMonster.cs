@@ -19,12 +19,22 @@ public class ManagerMonster : Singleton<ManagerMonster>
     {
     }
 
-    public void AllTryAttack()
+    public void FixedUpdate()
     {
+        if (ManagerGamePeriod.Instance.GetCurPeriodType() != EGamePeriodType.Fight) return;
+
+        // Ïà»¥¹¥»÷
         foreach (var kvPair in dictMonsters)
         {
             var monsterComp = kvPair.Value;
             monsterComp.TryAttack();
+        }
+
+        // TODO: Update Buff
+        foreach (var kvPair in dictMonsters)
+        {
+            var monsterComp = kvPair.Value;
+            monsterComp.BuffLogicUpdate();
         }
     }
 

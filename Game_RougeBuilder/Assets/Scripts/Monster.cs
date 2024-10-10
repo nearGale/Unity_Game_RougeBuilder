@@ -72,6 +72,8 @@ public class Monster
 
     public List<int> talents = new();
 
+    public ComponentBuff componentBuff = new();
+
     #endregion [Property]
 
     #region [Life Circle Method]
@@ -91,6 +93,13 @@ public class Monster
 
         talents.Clear();
         ui.RefreshTalents(talents);
+
+        componentBuff.Clear();
+    }
+
+    public void BuffLogicUpdate()
+    {
+        componentBuff.LogicUpdate();
     }
 
     #endregion [Life Circle Method]
@@ -309,6 +318,13 @@ public class Monster
             (EFightProperty)randomVal,
             GetFightProperty((EFightProperty)randomVal) + randomVal2
             );
+
+        AddBuff(0, 3);
+    }
+
+    public void AddBuff(int dataId, float restTime)
+    {
+        componentBuff.AddBuff(dataId, id, restTime);
     }
 
     private void OnDead() { }

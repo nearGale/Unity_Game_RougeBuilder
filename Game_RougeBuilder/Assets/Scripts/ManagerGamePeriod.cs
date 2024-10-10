@@ -41,6 +41,17 @@ public class ManagerGamePeriod : Singleton<ManagerGamePeriod>
         curPeriodIdx = -1;
     }
 
+    public EGamePeriodType GetCurPeriodType()
+    {
+        if(curPeriodIdx < 0 || curPeriodIdx >= periods.Count)
+        {
+            return EGamePeriodType.None;
+        }
+
+        var gamePeriod = periods[curPeriodIdx];
+        return gamePeriod.eType;
+    }
+
     private void CreatePeriods()
     {
         // 阶段1：对打 15 秒钟
@@ -130,7 +141,6 @@ public class ManagerGamePeriod : Singleton<ManagerGamePeriod>
         switch (gamePeriod.eType)
         {
             case EGamePeriodType.Fight:
-                ManagerMonster.Instance.AllTryAttack();
                 break;
             case EGamePeriodType.SelectTalent:
                 break;
@@ -139,6 +149,10 @@ public class ManagerGamePeriod : Singleton<ManagerGamePeriod>
         }
     }
 
+    /// <summary>
+    /// 检查这个阶段是否可以通过，进入下一阶段
+    /// </summary>
+    /// <param name="gamePeriod"></param>
     private void PeriodCheckShallPass(GamePeriod gamePeriod)
     {
         var shallPass = false;
