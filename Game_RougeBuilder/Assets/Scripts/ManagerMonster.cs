@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ManagerMonster : Singleton<ManagerMonster>
 {
-    public Dictionary<int, MonsterComponent> dictMonsters = new();
+    public Dictionary<int, Monster> dictMonsters = new();
 
     private int newCreateId = 0;
 
@@ -17,10 +17,14 @@ public class ManagerMonster : Singleton<ManagerMonster>
 
     public void Update() 
     {
-        foreach(var kvPair in dictMonsters)
+    }
+
+    public void AllTryAttack()
+    {
+        foreach (var kvPair in dictMonsters)
         {
             var monsterComp = kvPair.Value;
-            monsterComp.Update();
+            monsterComp.TryAttack();
         }
     }
 
@@ -33,7 +37,7 @@ public class ManagerMonster : Singleton<ManagerMonster>
         }
     }
 
-    public MonsterComponent GetMonsterById(int id)
+    public Monster GetMonsterById(int id)
     {
         if(dictMonsters.TryGetValue(id, out var comp))
         {
@@ -43,13 +47,13 @@ public class ManagerMonster : Singleton<ManagerMonster>
         return null;
     }
 
-    public (int, MonsterComponent) CreateMonster(
+    public (int, Monster) CreateMonster(
         int hpMax, int attack, float attackInterval,
         int attackCriticalRate, int missRate)
     {
         newCreateId++;
 
-        var monsterComp = new MonsterComponent();
+        var monsterComp = new Monster();
 
         var ui = GameObject.Instantiate(GameFlowCtrl.Instance.prefabMonsterUI, GameFlowCtrl.Instance.rootMonstersUI);
         var uiMonsterCtrl = ui.GetComponent<UIMonsterCtrl>();

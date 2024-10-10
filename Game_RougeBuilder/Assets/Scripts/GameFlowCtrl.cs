@@ -8,19 +8,25 @@ public class GameFlowCtrl : MonoSingleton<GameFlowCtrl>
 {
     public GameObject prefabMonsterUI;
     public Transform rootMonstersUI;
+    public GameObject prefabTalentUI;
+    public Transform rootTalentsUI;
     public Button btnPlay;
 
     private void Start()
     {
         btnPlay.onClick.AddListener(() =>
         {
+            ManagerGamePeriod.Instance.Reset();
             ManagerMonster.Instance.Reset();
         });
 
-        ManagerGameFlow.Create();
+        ManagerGamePeriod.Create();
         ManagerMonster.Create();
-        ManagerGameFlow.Instance.Start();
+        ManagerTalentPool.Create();
+
+        ManagerGamePeriod.Instance.Start();
         ManagerMonster.Instance.Start();
+        ManagerTalentPool.Instance.Start();
 
         var (idA, monsterA) = ManagerMonster.Instance.CreateMonster(
             hpMax: 1500,
@@ -41,7 +47,8 @@ public class GameFlowCtrl : MonoSingleton<GameFlowCtrl>
 
     private void Update()
     {
-        ManagerGameFlow.Instance.Update();
+        ManagerGamePeriod.Instance.Update();
         ManagerMonster.Instance.Update();
+        ManagerTalentPool.Instance.Update();
     }
 }

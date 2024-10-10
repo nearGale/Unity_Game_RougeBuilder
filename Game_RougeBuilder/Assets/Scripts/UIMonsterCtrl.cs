@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,6 +14,7 @@ public class UIMonsterCtrl : MonoBehaviour
     public Text textAttackInterval;
     public Text textAttackCritRate;
     public Text textAttackedMissingRate;
+    public Text textTalents;
     public Transform rootDmgTaken;
 
     /// <summary>
@@ -77,6 +79,11 @@ public class UIMonsterCtrl : MonoBehaviour
     public void RefreshAttackedMissingRate(int val)
     {
         textAttackedMissingRate.text = $"…¡±‹¬ : {val}%";
+    }
+
+    public void RefreshTalents(List<int> talents)
+    {
+        textTalents.text = $"ÃÏ∏≥: {String.Join(',', talents)}";
     }
 
     /// <summary>
