@@ -63,7 +63,7 @@ public class EditorConfigBuff : EditorWindow
             data.dataId = lastDataId + 1;
             _config.originData.Add(data);
 
-            OnETypeSelected(data.dataId);
+            OnDataIdSelected(data.dataId);
         }
 
         if (GUILayout.Button("Delete This"))
@@ -130,10 +130,10 @@ public class EditorConfigBuff : EditorWindow
     void AddMenuItemForBuff(GenericMenu menu, string menuPath, int dataId)
     {
         // 如果 item 项与当前选中的 dataId 匹配，则将其标记为选中
-        menu.AddItem(new GUIContent(menuPath), _curDataId == dataId, OnBuffSelected, dataId);
+        menu.AddItem(new GUIContent(menuPath), _curDataId == dataId, OnDataIdSelected, dataId);
     }
 
-    private void OnBuffSelected(object dataId)
+    private void OnDataIdSelected(object dataId)
     {
         _curDataId = (int)dataId;
         _originData = _config.originData.Find(x => x.dataId == _curDataId);
