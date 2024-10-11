@@ -14,18 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originData:
   - dataId: 1
+    name: "\u5927\u952480"
+    desc: "\u653B\u51FB\u529B\u589E\u52A080\uFF0C\u653B\u51FB\u95F4\u9694\u589E\u52A02\u79D2"
     eBuffType: 0
-    restTime: 10
+    restTime: -1
     paramList:
     - 102
-    - 10
+    - 80
   - dataId: 2
+    name: 2222
+    desc: 
     eBuffType: 0
     restTime: 9
     paramList:
     - 104
     - 5
   - dataId: 3
+    name: "\u7729\u6655"
+    desc: 
     eBuffType: 1
-    restTime: 5
+    restTime: 2
     paramList: []

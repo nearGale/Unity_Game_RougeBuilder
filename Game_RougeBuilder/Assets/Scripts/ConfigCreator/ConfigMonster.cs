@@ -7,12 +7,12 @@ using UnityEngine;
 public class ConfigMonster : ConfigBase
 {
     /// <summary> 原始数据 </summary>
-    public List<DataMonster> dataMonster;
+    public List<DataMonster> originData;
 
     public override void ParseConfig()
     {
         dictDatas.Clear();
-        foreach (var data in dataMonster)
+        foreach (var data in originData)
         {
             dictDatas.Add(data.dataId, data);
         }

@@ -19,11 +19,14 @@ public class DataMonster : DataConfigBase
     public float attackInterval;
     public float attackCritRate;
     public float missRate;
+    public List<int> carringBuff;
 }
 
 [Serializable]
 public class DataBuff : DataConfigBase
 {
+    public string name;
+    public string desc;
     public EBuffType eBuffType;
     public float restTime;
     public List<float> paramList;
