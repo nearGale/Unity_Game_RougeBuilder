@@ -95,6 +95,7 @@ public class EditorConfigBuff : EditorWindow
             WindowHelper.IntField("dataId", ref _originData.dataId);
             WindowHelper.StrField("名字", ref _originData.name);
             WindowHelper.StrField("描述", ref _originData.desc);
+            WindowHelper.FloatField("持续时间", ref _originData.restTime);
 
             EditorGUILayout.Space();
 
@@ -119,7 +120,6 @@ public class EditorConfigBuff : EditorWindow
 
             EditorGUILayout.Space();
 
-            WindowHelper.FloatField("持续时间", ref _originData.restTime);
 
             var a = 1f;
             WindowHelper.FloatField("参数", ref a);
