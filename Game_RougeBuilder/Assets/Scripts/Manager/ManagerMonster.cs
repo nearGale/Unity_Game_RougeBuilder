@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class ManagerMonster : Singleton<ManagerMonster>
+public class ManagerMonster : Singleton<ManagerMonster>, IManager
 {
     public Dictionary<int, Monster> dictMonsters = new();
 
     private int newCreateId = 0;
+
+    #region Manager Func
 
     public void Start()
     {
@@ -15,9 +17,7 @@ public class ManagerMonster : Singleton<ManagerMonster>
         newCreateId = 0;
     }
 
-    public void Update() 
-    {
-    }
+    public void Update() { }
 
     public void FixedUpdate()
     {
@@ -47,6 +47,8 @@ public class ManagerMonster : Singleton<ManagerMonster>
         }
     }
 
+    #endregion Manager Func
+
     public Monster GetMonsterById(int id)
     {
         if(dictMonsters.TryGetValue(id, out var comp))
@@ -61,8 +63,8 @@ public class ManagerMonster : Singleton<ManagerMonster>
     {
         newCreateId++;
 
-        var configMonster = ManagerConfig.Instance.Get<ConfigMonster>();
-        var dataMonster = configMonster.GetDataById<DataMonster>(dataId);
+        var configMonster = ManagerConfig.Instance.Get<MonsterExcelData>();
+        var dataMonster = configMonster.GetExcelItem(dataId);
 
         if (dataMonster == null) return (0, null);
 

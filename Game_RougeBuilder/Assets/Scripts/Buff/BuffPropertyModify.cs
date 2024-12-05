@@ -44,25 +44,4 @@ public class BuffPropertyModify : Buff
                 monster.GetFightProperty(param.property) - param.modifyVal);
         }
     }
-
-    public override void TranslateParamList()
-    {
-        base.TranslateParamList();
-
-        modifyParams.Clear();
-        for (int i = 0; i < listParams.Count; i++)
-        {
-            if (i % 2 == 0) continue;
-
-            // EFightParam, val, EFightParam, val, ...
-            // 两个一对
-
-            var modifyParam = new BuffPropModifyParam()
-            {
-                property = (EFightProperty)listParams[i - 1],
-                modifyVal = listParams[i],
-            };
-            modifyParams.Add(modifyParam);
-        }
-    }
 }

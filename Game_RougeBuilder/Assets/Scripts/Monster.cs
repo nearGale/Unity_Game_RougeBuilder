@@ -12,7 +12,7 @@ public class Monster
 
     public int dataId;
 
-    public bool alive => GetFightProperty(EFightProperty.hpCur) > 0;
+    public bool alive => GetFightProperty(EFightProperty.curHp) > 0;
 
     private float _lastAttackTime;
 
@@ -24,20 +24,31 @@ public class Monster
 
     public ComponentBuff compBuff = new();
 
+    private List<EFightProperty> _tmpList = new();
+
     #endregion [Property]
 
     #region [Life Circle Method]
 
     public void Reset()
     {
-        foreach(var kvPair in fightProperties)
+        _tmpList.Clear();
+        foreach (var kvPair in fightProperties)
         {
             // 清除中途修改值
             if((int)kvPair.Key > 100 && (int)kvPair.Key <= 200)
             {
-                fightProperties[kvPair.Key] = 0;
+                _tmpList.Add(kvPair.Key);
             }
         }
+
+        foreach (var key in _tmpList)
+        {
+            fightProperties[key] = 0;
+        }
+        _tmpList.Clear();
+
+        fightProperties[EFightProperty.curHp] = GetFightProperty(EFightProperty.basicMaxHp);
 
         talents.Clear();
         ui.RefreshTalents(talents);
@@ -66,20 +77,20 @@ public class Monster
 
         switch (prop)
         {
-            case EFightProperty.hpMax:
-                val = GetFightProperty(EFightProperty.hpMax_Basic) + GetFightProperty(EFightProperty.hpMax_Modify);
+            case EFightProperty.calMaxHp:
+                val = GetFightProperty(EFightProperty.basicMaxHp) + GetFightProperty(EFightProperty.modifyMaxHp);
                 break;
-            case EFightProperty.attack:
-                val = GetFightProperty(EFightProperty.attack_Basic) + GetFightProperty(EFightProperty.attack_Modify);
+            case EFightProperty.calAttack:
+                val = GetFightProperty(EFightProperty.basicAttack) + GetFightProperty(EFightProperty.modifyAttack);
                 break;
-            case EFightProperty.attackInterval:
-                val = GetFightProperty(EFightProperty.attackInterval_Basic) + GetFightProperty(EFightProperty.attackInterval_Modify);
+            case EFightProperty.calAttackInterval:
+                val = GetFightProperty(EFightProperty.basicAttackInterval) + GetFightProperty(EFightProperty.modifyAttackInterval);
                 break;
-            case EFightProperty.attackCritRate:
-                val = GetFightProperty(EFightProperty.attackCritRate_Basic) + GetFightProperty(EFightProperty.attackCritRate_Modify);
+            case EFightProperty.calAttackCritRate:
+                val = GetFightProperty(EFightProperty.basicAttackCritRate) + GetFightProperty(EFightProperty.modifyAttackCritRate);
                 break;
-            case EFightProperty.missRate:
-                val = GetFightProperty(EFightProperty.missRate_Basic) + GetFightProperty(EFightProperty.missRate_Modify);
+            case EFightProperty.calMissRate:
+                val = GetFightProperty(EFightProperty.basicMissRate) + GetFightProperty(EFightProperty.modifyMissRate);
                 break;
             default:
                 if (fightProperties.TryGetValue(prop, out var value))
@@ -101,18 +112,18 @@ public class Monster
         OnPropertyChanged(prop);
     }
 
-    public void SetBasicProperty(DataMonster dataMonster)
+    public void SetBasicProperty(MonsterExcelItem dataMonster)
     {
-        dataId = dataMonster.dataId;
+        dataId = dataMonster.id;
 
         ui.RefreshName(dataMonster.name);
 
-        SetFightProperty(EFightProperty.hpMax_Basic, dataMonster.hp);
-        SetFightProperty(EFightProperty.hpCur, dataMonster.hp);
-        SetFightProperty(EFightProperty.attack_Basic, dataMonster.attack);
-        SetFightProperty(EFightProperty.attackInterval_Basic, dataMonster.attackInterval);
-        SetFightProperty(EFightProperty.attackCritRate_Basic, dataMonster.attackCritRate);
-        SetFightProperty(EFightProperty.missRate_Basic, dataMonster.missRate);
+        SetFightProperty(EFightProperty.basicMaxHp, dataMonster.basicHp);
+        SetFightProperty(EFightProperty.curHp, dataMonster.basicHp);
+        SetFightProperty(EFightProperty.basicAttack, dataMonster.basicAttack);
+        SetFightProperty(EFightProperty.basicAttackInterval, dataMonster.attackInterval);
+        SetFightProperty(EFightProperty.basicAttackCritRate, dataMonster.attackCritRate);
+        SetFightProperty(EFightProperty.basicMissRate, dataMonster.missRate);
 
     }
 
@@ -120,22 +131,22 @@ public class Monster
     {
         switch (prop)
         {
-            case EFightProperty.hpMax:
+            case EFightProperty.calMaxHp:
                 val = Mathf.Max(1, val);
                 break;
-            case EFightProperty.hpCur:
+            case EFightProperty.curHp:
                 val = Mathf.Max(0, val);
                 break;
-            case EFightProperty.attack:
+            case EFightProperty.calAttack:
                 val = Mathf.Max(1, val);
                 break;
-            case EFightProperty.attackInterval:
+            case EFightProperty.calAttackInterval:
                 val = Mathf.Max(0.05f, val);
                 break;
-            case EFightProperty.attackCritRate:
+            case EFightProperty.calAttackCritRate:
                 val = Mathf.Max(0, val);
                 break;
-            case EFightProperty.missRate:
+            case EFightProperty.calMissRate:
                 val = Mathf.Max(0, val);
                 break;
             default:
@@ -148,28 +159,28 @@ public class Monster
     {
         switch (prop)
         {
-            case EFightProperty.hpMax_Basic:
-            case EFightProperty.hpMax_Modify:
-            case EFightProperty.hpCur:
+            case EFightProperty.basicMaxHp:
+            case EFightProperty.modifyMaxHp:
+            case EFightProperty.curHp:
                 ui.RefreshHp(
-                    (int)GetFightProperty(EFightProperty.hpCur),
-                    (int)GetFightProperty(EFightProperty.hpMax));
+                    (int)GetFightProperty(EFightProperty.curHp),
+                    (int)GetFightProperty(EFightProperty.calMaxHp));
                 break;
-            case EFightProperty.attack_Basic:
-            case EFightProperty.attack_Modify:
-                ui.RefreshAttack((int)GetFightProperty(EFightProperty.attack));
+            case EFightProperty.basicAttack:
+            case EFightProperty.modifyAttack:
+                ui.RefreshAttack((int)GetFightProperty(EFightProperty.calAttack));
                 break;
-            case EFightProperty.attackInterval_Basic:
-            case EFightProperty.attackInterval_Modify:
-                ui.RefreshAttackInterval(GetFightProperty(EFightProperty.attackInterval));
+            case EFightProperty.basicAttackInterval:
+            case EFightProperty.modifyAttackInterval:
+                ui.RefreshAttackInterval(GetFightProperty(EFightProperty.calAttackInterval));
                 break;
-            case EFightProperty.attackCritRate_Basic:
-            case EFightProperty.attackCritRate_Modify:
-                ui.RefreshAttackCritRate((int)GetFightProperty(EFightProperty.attackCritRate));
+            case EFightProperty.basicAttackCritRate:
+            case EFightProperty.modifyAttackCritRate:
+                ui.RefreshAttackCritRate((int)GetFightProperty(EFightProperty.calAttackCritRate));
                 break;
-            case EFightProperty.missRate_Basic:
-            case EFightProperty.missRate_Modify:
-                ui.RefreshAttackedMissingRate((int)GetFightProperty(EFightProperty.missRate));
+            case EFightProperty.basicMissRate:
+            case EFightProperty.modifyMissRate:
+                ui.RefreshAttackedMissingRate((int)GetFightProperty(EFightProperty.calMissRate));
                 break;
             default:
                 break;
@@ -189,7 +200,7 @@ public class Monster
 
         if (compBuff.HasBuffByType(EBuffType.Stun, out _)) return;
 
-        if (_lastAttackTime == 0 || Time.time > _lastAttackTime + GetFightProperty(EFightProperty.attackInterval))
+        if (_lastAttackTime == 0 || Time.time > _lastAttackTime + GetFightProperty(EFightProperty.calAttackInterval))
         {
             _lastAttackTime = Time.time;
 
@@ -208,7 +219,7 @@ public class Monster
         // 计算闪避
         bool isMissing = false;
         int randomVal = Random.Range(0, 100);
-        if (randomVal < targetMonster.GetFightProperty(EFightProperty.missRate))
+        if (randomVal < targetMonster.GetFightProperty(EFightProperty.calMissRate))
         {
             isMissing = true;
             targetMonster.OnAttackedMissing();
@@ -218,12 +229,12 @@ public class Monster
         // 计算暴击
         bool isCritical = false;
         randomVal = Random.Range(0, 100);
-        if(randomVal <= GetFightProperty(EFightProperty.attackCritRate))
+        if(randomVal <= GetFightProperty(EFightProperty.calAttackCritRate))
         {
             isCritical = true;
         }
 
-        var dmgVal = (int)GetFightProperty(EFightProperty.attack);
+        var dmgVal = (int)GetFightProperty(EFightProperty.calAttack);
 
         if (isCritical)
         {
@@ -240,8 +251,8 @@ public class Monster
     /// <param name="isCritical">是否是暴击</param>
     public void OnAttacked(int dmgVal, bool isCritical)
     {
-        var curHp = Mathf.Max(0, GetFightProperty(EFightProperty.hpCur) - dmgVal);
-        SetFightProperty(EFightProperty.hpCur, curHp);
+        var curHp = Mathf.Max(0, GetFightProperty(EFightProperty.curHp) - dmgVal);
+        SetFightProperty(EFightProperty.curHp, curHp);
 
         if (curHp == 0)
         {
@@ -278,7 +289,10 @@ public class Monster
         //    GetFightProperty((EFightProperty)randomVal) + randomVal2
         //    );
 
-        AddBuff(id % 3 + 1);
+        if(ManagerTalentPool.Instance.talentPool.TryGetValue(id, out var talent))
+        {
+            AddBuff(talent.buffDataId);
+        }
     }
 
     public void AddBuff(int dataId)

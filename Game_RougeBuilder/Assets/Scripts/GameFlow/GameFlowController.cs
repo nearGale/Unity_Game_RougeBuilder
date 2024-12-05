@@ -16,19 +16,16 @@ public class GameFlowCtrl : MonoSingleton<GameFlowCtrl>
     {
         btnPlay.onClick.AddListener(() =>
         {
-            ManagerGamePeriod.Instance.Reset();
-            ManagerMonster.Instance.Reset();
+            foreach (var manager in ConfigManager.managers)
+            {
+                manager.Reset();
+            }
         });
 
-        ManagerConfig.Create();
-        ManagerGamePeriod.Create();
-        ManagerMonster.Create();
-        ManagerTalentPool.Create();
-
-        ManagerConfig.Instance.Start();
-        ManagerGamePeriod.Instance.Start();
-        ManagerMonster.Instance.Start();
-        ManagerTalentPool.Instance.Start();
+        foreach(var manager in ConfigManager.managers)
+        {
+            manager.Start();
+        }
 
         //var (idA, monsterA) = ManagerMonster.Instance.CreateMonster(
         //    hpMax: 1500,
@@ -52,13 +49,17 @@ public class GameFlowCtrl : MonoSingleton<GameFlowCtrl>
 
     private void Update()
     {
-        ManagerGamePeriod.Instance.Update();
-        ManagerMonster.Instance.Update();
-        ManagerTalentPool.Instance.Update();
+        foreach (var manager in ConfigManager.managers)
+        {
+            manager.Update();
+        }
     }
 
     private void FixedUpdate()
     {
-        ManagerMonster.Instance.FixedUpdate();
+        foreach (var manager in ConfigManager.managers)
+        {
+            manager.FixedUpdate();
+        }
     }
 }

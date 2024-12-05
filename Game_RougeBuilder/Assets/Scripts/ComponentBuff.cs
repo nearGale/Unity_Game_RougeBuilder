@@ -46,19 +46,29 @@ public class ComponentBuff
 
     public void AddBuff(int dataId, int ownerId)
     {
-        var configBuff = ManagerConfig.Instance.Get<ConfigBuff>();
+        var configBuff = ManagerConfig.Instance.Get<BuffExcelData>();
 
-        var dataBuff = configBuff.GetDataById<DataBuff>(dataId);
+        var dataBuff = configBuff.GetExcelItem(dataId);
         if (dataBuff == null) return;
 
-        Buff buff = CreateBuffByType(dataBuff.eBuffType);
+        Buff buff = CreateBuffByType(dataBuff.buffType);
         if (buff == null) return;
 
         buff.dataId = dataId;
         buff.ownerMonsterId = ownerId;
-        buff.eType = dataBuff.eBuffType;
+        buff.eType = dataBuff.buffType;
         buff.restTime = dataBuff.restTime;
         buff.listParams = dataBuff.paramList;
+
+        switch (dataBuff.buffType)
+        {
+            case EBuffType.FightProperty:
+                var buffFightProperty = buff as BuffPropertyModify;
+                buffFightProperty.modifyParams = dataBuff.modifyParams;
+                break;
+            default:
+                break;
+        }
 
         buff.TranslateParamList();
 

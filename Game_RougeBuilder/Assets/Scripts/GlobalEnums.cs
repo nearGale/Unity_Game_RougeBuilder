@@ -30,48 +30,48 @@ public enum EFightProperty
     /// <summary>
     /// 当前血量
     /// </summary>
-    hpCur = 1,
+    curHp = 1,
 
     /// <summary>
     /// 最大血量
     /// </summary>
-    hpMax_Basic,
+    basicMaxHp,
 
     /// <summary>
     /// 攻击力
     /// </summary>
-    attack_Basic,
+    basicAttack,
 
     /// <summary>
     /// 攻击间隔 (s)
     /// </summary>
-    attackInterval_Basic,
+    basicAttackInterval,
 
     /// <summary>
     /// 攻击暴击率 (0~100), 计算时 randomVal <= rate 为暴击
     /// </summary>
-    attackCritRate_Basic,
+    basicAttackCritRate,
 
     /// <summary>
     /// 闪避率 (0~100), 计算时 randomVal <= rate 为闪避成功
     /// </summary>
-    missRate_Basic,
+    basicMissRate,
 
     // ===== 超过100是修改值 ===== 
 
-    hpMax_Modify = 101,
-    attack_Modify,
-    attackInterval_Modify,
-    attackCritRate_Modify,
-    missRate_Modify,
+    modifyMaxHp = 101,
+    modifyAttack,
+    modifyAttackInterval,
+    modifyAttackCritRate,
+    modifyMissRate,
 
     // ===== 超过200是计算值 ===== 
 
-    hpMax = 201,
-    attack,
-    attackInterval,
-    attackCritRate,
-    missRate,
+    calMaxHp = 201,
+    calAttack,
+    calAttackInterval,
+    calAttackCritRate,
+    calMissRate,
 
 }
 

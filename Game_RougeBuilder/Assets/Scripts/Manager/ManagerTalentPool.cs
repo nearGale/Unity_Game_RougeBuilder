@@ -21,32 +21,32 @@ public class Talent
     {
         this.buffDataId = buffDataId;
 
-        var configBuff = ManagerConfig.Instance.Get<ConfigBuff>();
-        var dataBuff = configBuff.GetDataById<DataBuff>(buffDataId);
+        var configBuff = ManagerConfig.Instance.Get<BuffExcelData>();
+        var dataBuff = configBuff.GetExcelItem(buffDataId);
 
-        var desc = $"{dataBuff.eBuffType}\n";
-        foreach(var param in dataBuff.paramList)
-        {
-            desc += $"{param},";
-        }
-        desc += $"\n持续{dataBuff.restTime}s";
+        var desc = $"{dataBuff.name}({dataBuff.id})\n{dataBuff.desc}";
 
         ui.id = id;
         ui.SetDesc(desc);
     }
 }
 
-public class ManagerTalentPool : Singleton<ManagerTalentPool>
+public class ManagerTalentPool : Singleton<ManagerTalentPool>, IManager
 {
     public Dictionary<int, Talent> talentPool = new();
 
     private List<int> _selectorIds;
     private int _selectorIdx;
 
+    #region Manager Func
     public void Start() { }
 
     public void Update() { }
 
+    public void FixedUpdate() { }
+
+    public void Reset() { }
+    #endregion Manager Func
     public void CreateTalents()
     {
         CreateTalent(1);

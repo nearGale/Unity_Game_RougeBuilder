@@ -5,17 +5,18 @@ using UnityEngine;
 /// <summary>
 /// ÓÎÏ·½×¶Î¿ØÖÆ Manager
 /// </summary>
-public class ManagerGamePeriod : Singleton<ManagerGamePeriod>
+public class ManagerGamePeriod : Singleton<ManagerGamePeriod>, IManager
 {
     public List<GamePeriod> periods = new();
     public int curPeriodIdx;
 
     private float _periodEnterTime;
 
+    #region Manager Func
+
     public void Start() 
     {
         CreatePeriods();
-        Reset();
     }
 
     public void Update() 
@@ -36,10 +37,14 @@ public class ManagerGamePeriod : Singleton<ManagerGamePeriod>
         PeriodCheckShallPass(gamePeriod);
     }
 
+    public void FixedUpdate() { }
+
     public void Reset()
     {
         curPeriodIdx = -1;
     }
+
+    #endregion Manager Func
 
     public EGamePeriodType GetCurPeriodType()
     {

@@ -3,25 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManagerConfig : Singleton<ManagerConfig>
+public class ManagerConfig : Singleton<ManagerConfig>, IManager
 {
-    public Dictionary<Type, ConfigBase> configs = new();
+    public Dictionary<Type, object> configs = new();
+
+    #region Manager Func
 
     public void Start() 
     {
-        var configMonster = Resources.Load<ConfigMonster>("Config/ConfigMonster");
-        configMonster.ParseConfig();
-        configs.Add(typeof(ConfigMonster), configMonster);
+        MonsterExcelData monsterExcelData = Resources.Load<MonsterExcelData>("ExcelAsset/MonsterExcelData");
+        if (monsterExcelData != null)
+        {
+            configs.Add(typeof(MonsterExcelData), monsterExcelData);
 
-        var configBuff = Resources.Load<ConfigBuff>("Config/ConfigBuff");
-        configBuff.ParseConfig();
-        configs.Add(typeof(ConfigBuff), configBuff);
+            foreach (var monster in monsterExcelData.items)
+            {
+                monster.OnLoad();
+            }
+        }
 
+        BuffExcelData buffExcelData = Resources.Load<BuffExcelData>("ExcelAsset/BuffExcelData");
+        if (buffExcelData != null)
+        {
+            configs.Add(typeof(BuffExcelData), buffExcelData);
+
+            foreach(var buff in buffExcelData.items)
+            {
+                buff.OnLoad();
+            }
+        }
     }
 
-    public T Get<T>() where T : ConfigBase
+    public void Update() { }
+
+    public void FixedUpdate() { }
+
+    public void Reset() { }
+
+    #endregion Manager Func
+
+    public T Get<T>() where T : ScriptableObject
     {
-        if(configs.TryGetValue(typeof(T), out ConfigBase config))
+        if(configs.TryGetValue(typeof(T), out object config))
         {
             return config as T;
         }
