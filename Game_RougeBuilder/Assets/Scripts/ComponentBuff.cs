@@ -46,7 +46,7 @@ public class ComponentBuff
 
     public void AddBuff(int dataId, int ownerId)
     {
-        var configBuff = ManagerConfig.Instance.Get<BuffExcelData>();
+        var configBuff = ManagerConfig.Instance.GetExcel<BuffExcelData>();
 
         var dataBuff = configBuff.GetExcelItem(dataId);
         if (dataBuff == null) return;

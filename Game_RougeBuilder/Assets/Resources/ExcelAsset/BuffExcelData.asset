@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72d91f5ce162cfe46bc1b80404fa3d5c, type: 3}
+  m_Script: {fileID: 0}
   m_Name: BuffExcelData
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuffExcelData
   items:
   - id: 1
     name: "\u5927\u952480"

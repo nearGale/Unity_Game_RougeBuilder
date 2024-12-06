@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11cc0e17ae2704c469d9905c708ed5f0, type: 3}
+  m_Script: {fileID: 0}
   m_Name: MonsterExcelData
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterExcelData
   items:
   - id: 1
     name: "\u76AE\u5361\u4E18"
-    attackTendency: 0
+    eType: 4
     basicHp: 150
     basicAttack: 2
     basicDefender: 3
@@ -25,7 +25,7 @@ MonoBehaviour:
     carringBuff: 
   - id: 2
     name: "\u5999\u86D9\u79CD\u5B50"
-    attackTendency: 1
+    eType: 3
     basicHp: 200
     basicAttack: 1
     basicDefender: 3
@@ -35,7 +35,7 @@ MonoBehaviour:
     carringBuff: 
   - id: 3
     name: "\u6770\u5C3C\u9F9F"
-    attackTendency: 2
+    eType: 1
     basicHp: 350
     basicAttack: 0.8
     basicDefender: 5
@@ -45,7 +45,7 @@ MonoBehaviour:
     carringBuff: 
   - id: 4
     name: "\u5927\u5CA9\u86C7"
-    attackTendency: 0
+    eType: 0
     basicHp: 500
     basicAttack: 1
     basicDefender: 5

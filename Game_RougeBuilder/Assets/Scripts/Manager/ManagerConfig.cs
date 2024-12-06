@@ -11,6 +11,24 @@ public class ManagerConfig : Singleton<ManagerConfig>, IManager
 
     public void Start() 
     {
+    }
+
+    public void Update() { }
+
+    public void FixedUpdate() { }
+
+    public void Reset() { }
+
+    #endregion Manager Func
+
+
+    #region ====== Excel ====== 
+
+    /// <summary>
+    /// 读取Excel表格
+    /// </summary>
+    public void LoadExcel()
+    {
         MonsterExcelData monsterExcelData = Resources.Load<MonsterExcelData>("ExcelAsset/MonsterExcelData");
         if (monsterExcelData != null)
         {
@@ -27,22 +45,14 @@ public class ManagerConfig : Singleton<ManagerConfig>, IManager
         {
             configs.Add(typeof(BuffExcelData), buffExcelData);
 
-            foreach(var buff in buffExcelData.items)
+            foreach (var buff in buffExcelData.items)
             {
                 buff.OnLoad();
             }
         }
     }
 
-    public void Update() { }
-
-    public void FixedUpdate() { }
-
-    public void Reset() { }
-
-    #endregion Manager Func
-
-    public T Get<T>() where T : ScriptableObject
+    public T GetExcel<T>() where T : ScriptableObject
     {
         if(configs.TryGetValue(typeof(T), out object config))
         {
@@ -52,4 +62,5 @@ public class ManagerConfig : Singleton<ManagerConfig>, IManager
         return null;
     }
 
+    #endregion ====== Excel ====== 
 }

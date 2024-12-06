@@ -19,10 +19,10 @@ public static class ExcelFileReader
 
     /// <summary> Excel读取路径 </summary>
     //public static string excelFilePath = Application.dataPath.Replace("Assets", "Excel");
-    public static string excelFilePath = Application.dataPath + "/Excel";
+    public static string excelFilePath = Application.dataPath + "/Excels/AssetReader";
 
     /// <summary> 自动生成C#类文件路径 </summary>
-    static string excelCodePath = Application.dataPath + "/Script/Excel/AutoCreateCSCode";
+    static string excelCodePath = Application.dataPath + "/Scripts/Excel/AutoCreateCSCode";
 
     /// <summary> 自动生成Asset文件路径 </summary>
     static string excelAssetPath = "Assets/Resources/ExcelAsset";

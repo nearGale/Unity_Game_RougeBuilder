@@ -10,7 +10,16 @@ public static class GlobalParams
     public const float MonsterAttackCritDmgMultiplier = 2f;
 
     /// <summary>
-    /// asset 配置的路径
+    /// 大地图配置相对路径（Asset下）
     /// </summary>
-    public const string AssetPath = "/Config";
+    public const string ConfigPathBigMap = @"/Excels/Map/BigMap.xlsx";
+
+    /// <summary>
+    /// 大地图表中标识符
+    /// </summary>
+    public const string BigMapGridStaticDataWall = "W";
+
+    public const string BigMapGridStaticDataMonster = "M";
+
+    public const string BigMapGridStaticDataNPC = "N";
 }

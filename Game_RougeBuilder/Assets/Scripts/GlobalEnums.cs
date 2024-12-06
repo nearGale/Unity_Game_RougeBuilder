@@ -80,3 +80,23 @@ public enum EBuffType
     FightProperty,
     Stun,
 }
+
+
+public enum EMonsterType
+{
+    Normal,
+    Water,
+    Fire,
+    Grass,
+    Thunder,
+    Ghost,
+}
+
+
+public enum EBigMapGridType
+{
+    None,
+    Wall,
+    Monster,
+    NPC,
+}

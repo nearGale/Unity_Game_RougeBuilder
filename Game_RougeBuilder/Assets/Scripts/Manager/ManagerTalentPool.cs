@@ -21,7 +21,7 @@ public class Talent
     {
         this.buffDataId = buffDataId;
 
-        var configBuff = ManagerConfig.Instance.Get<BuffExcelData>();
+        var configBuff = ManagerConfig.Instance.GetExcel<BuffExcelData>();
         var dataBuff = configBuff.GetExcelItem(buffDataId);
 
         var desc = $"{dataBuff.name}({dataBuff.id})\n{dataBuff.desc}";

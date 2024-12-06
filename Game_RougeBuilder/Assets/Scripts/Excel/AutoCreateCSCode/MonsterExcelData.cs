@@ -10,7 +10,7 @@ using System.Linq;
 public partial class MonsterExcelItem : ExcelItemBase
 {
 	public string name;
-	public EPokemonAttackTendency attackTendency;
+	public EMonsterType eType;
 	public float basicHp;
 	public float basicAttack;
 	public float basicDefender;
@@ -39,7 +39,7 @@ public class MonsterAssetAssignment
 			items[i] = new MonsterExcelItem();
 			items[i].id = Convert.ToInt32(allItemValueRowList[i]["id"]);
 			items[i].name = allItemValueRowList[i]["name"];
-			items[i].attackTendency = Enum.Parse<EPokemonAttackTendency>(allItemValueRowList[i]["attackTendency"]);
+			items[i].eType = Enum.Parse<EMonsterType>(allItemValueRowList[i]["eType"]);
 			items[i].basicHp = Convert.ToSingle(allItemValueRowList[i]["basicHp"]);
 			items[i].basicAttack = Convert.ToSingle(allItemValueRowList[i]["basicAttack"]);
 			items[i].basicDefender = Convert.ToSingle(allItemValueRowList[i]["basicDefender"]);

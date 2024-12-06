@@ -18,7 +18,7 @@ public class BuildExcelWindow : EditorWindow
     //    ExcelDataReader.CreateAllExcelAsset();
     //}
 
-    [MenuItem("MyTools/Excel Window")]
+    [MenuItem("Tools/Excel Window")]
     public static void ShowExcelWindow()
     {
         //显示操作窗口方式一

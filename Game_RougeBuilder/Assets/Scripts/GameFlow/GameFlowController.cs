@@ -27,19 +27,15 @@ public class GameFlowCtrl : MonoSingleton<GameFlowCtrl>
             manager.Start();
         }
 
-        //var (idA, monsterA) = ManagerMonster.Instance.CreateMonster(
-        //    hpMax: 1500,
-        //    attack: 26,
-        //    attackInterval: 0.2f,
-        //    attackCriticalRate: 25,
-        //    missRate: 40);
-        //var (idB, monsterB) = ManagerMonster.Instance.CreateMonster(
-        //    hpMax: 8000,
-        //    attack: 13,
-        //    attackInterval: 0.5f,
-        //    attackCriticalRate: 5,
-        //    missRate: 3);
+        ManagerConfig.Instance.LoadExcel();
+        ManagerBigMap.Instance.LoadConfig();
 
+        ManagerBigMap.Instance.CreateMapGrids();
+
+        
+        
+        
+        
         var (idA, monsterA) = ManagerMonster.Instance.CreateMonster(1);
         var (idB, monsterB) = ManagerMonster.Instance.CreateMonster(2);
 

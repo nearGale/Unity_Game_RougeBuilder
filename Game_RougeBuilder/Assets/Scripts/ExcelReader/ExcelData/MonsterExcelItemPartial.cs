@@ -8,7 +8,7 @@ public partial class MonsterExcelItem
     {
         var str = $"id:{id} " +
             $"{name} " +
-            $"attackTendency:{attackTendency} " +
+            $"type:{eType} " +
             $"hp:{basicHp} " +
             $"atk:{basicAttack} " +
             $"def:{basicDefender} " +

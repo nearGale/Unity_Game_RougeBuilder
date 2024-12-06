@@ -6,6 +6,7 @@ public static class ConfigManager
     {
         ManagerConfig.Create(),
         ManagerGamePeriod.Create(),
+        ManagerBigMap.Create(),
         ManagerMonster.Create(),
         ManagerTalentPool.Create(),
     };

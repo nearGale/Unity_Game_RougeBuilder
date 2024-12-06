@@ -63,7 +63,7 @@ public class ManagerMonster : Singleton<ManagerMonster>, IManager
     {
         newCreateId++;
 
-        var configMonster = ManagerConfig.Instance.Get<MonsterExcelData>();
+        var configMonster = ManagerConfig.Instance.GetExcel<MonsterExcelData>();
         var dataMonster = configMonster.GetExcelItem(dataId);
 
         if (dataMonster == null) return (0, null);
